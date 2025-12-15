@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from recomender import recomendGift
+
 import json
 import random
 import traceback
@@ -139,6 +141,7 @@ class SettingsWindow(ctk.CTk):
         self.title("Settings Window")
         self.geometry(f"{400}x{300}")
 
+print(recomendGift("1", [], []))
 
 if __name__ == "__main__":
     app = App()
