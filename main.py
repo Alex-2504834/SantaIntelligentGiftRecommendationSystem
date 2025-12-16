@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from recomender import recomendGift, getChildData
+
 import csv
 import hashlib
 import json
@@ -1644,7 +1646,6 @@ class app(ctk.CTk):
 
     def loadDistinctChildrenFromWishlistOnly(self) -> List[Dict[str, str]]:
         return self.loadDistinctChildrenFromDb()
-
 
 if __name__ == "__main__":
     appInstance: app = app()
