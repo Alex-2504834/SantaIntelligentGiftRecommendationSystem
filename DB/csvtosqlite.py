@@ -6,7 +6,7 @@ cursor = connect.cursor()
 
 
 # insert history table from csv
-cursor.execute("DROP TABLE history")
+cursor.execute("DROP TABLE IF EXISTS history")
 cursor.execute("CREATE TABLE history (child_id, last_year_gift, gift_satisfaction_rating);")
 
 with open('./DB/csv/past_gift_history_large.csv','r', encoding="utf8") as fin:
@@ -16,19 +16,19 @@ with open('./DB/csv/past_gift_history_large.csv','r', encoding="utf8") as fin:
 cursor.executemany("INSERT INTO history (child_id, last_year_gift, gift_satisfaction_rating) VALUES (?, ?, ?);", toDB)
 connect.commit()
 
-# insert intrests table from csv
-cursor.execute("DROP TABLE intrests")
-cursor.execute("CREATE TABLE intrests (child_id, primary_interest, secondary_interest);")
+# insert interests table from csv
+cursor.execute("DROP TABLE IF EXISTS interests")
+cursor.execute("CREATE TABLE interests (child_id, primary_interest, secondary_interest);")
 
 with open('./DB/csv/interests_large.csv','r', encoding="utf8") as fin:
     dictReader = csv.DictReader(fin)
     toDB = [(i['child_id'], i['primary_interest'], i["secondary_interest"]) for i in dictReader]
 
-cursor.executemany("INSERT INTO intrests (child_id, primary_interest, secondary_interest) VALUES (?, ?, ?);", toDB)
+cursor.executemany("INSERT INTO interests (child_id, primary_interest, secondary_interest) VALUES (?, ?, ?);", toDB)
 connect.commit()
 
 # insert wishlist table from csv
-cursor.execute("DROP TABLE wishlist")
+cursor.execute("DROP TABLE IF EXISTS wishlist")
 cursor.execute("CREATE TABLE wishlist (child_id, name, wishlist_items, submitted_date);")
 
 with open('./DB/csv/wishlist_large.csv','r', encoding="utf8") as fin:
