@@ -1597,11 +1597,7 @@ class app(ctk.CTk):
             import matplotlib.pyplot as plt
             from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
         except Exception as exc:
-            ctk.CTkLabel(
-                masterFrame,
-                text=f"Matplotlib not available:\n{exc}",
-                justify="left",
-            ).grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
+            ctk.CTkLabel(masterFrame, text=f"Matplotlib not available:\n{exc}", justify="left",).grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
             return
 
         themeKey: str = self.settings.plotTheme or "(default)"
