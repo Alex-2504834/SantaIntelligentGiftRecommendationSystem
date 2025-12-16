@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from recomender import recomendGift, getChildData
-
 import csv
 import hashlib
 import json
@@ -1314,7 +1312,7 @@ class app(ctk.CTk):
                     child_id,
                     primary_interest,
                     secondary_interest
-                FROM intrests
+                FROM interests
                 WHERE CAST(child_id AS INTEGER) = CAST(? AS INTEGER)
                 """,
                 (childId,),
@@ -1442,7 +1440,7 @@ class app(ctk.CTk):
                     COALESCE(w.name, '') AS name,
                     COALESCE(i.primary_interest, '') AS primary_interest,
                     COALESCE(i.secondary_interest, '') AS secondary_interest
-                FROM intrests i
+                FROM interests i
                 LEFT JOIN (
                     SELECT child_id AS id, name
                     FROM wishlist
