@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import csv
 import hashlib
 import json
@@ -11,6 +12,10 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import customtkinter as ctk
 
+os.environ["HF_HUB_OFFLINE"] = "1"
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
+os.environ["HF_DATASETS_OFFLINE"] = "1"
 
 @dataclass
 class appSettings:
@@ -314,7 +319,7 @@ class giftRecommender:
         self.giftTexts: List[str] = []
         self.giftEmbeddings: Any = None
 
-        self.modelName: str = "sentence-transformers/all-MiniLM-L6-v2"
+        self.modelName: Path = (Path(__file__).resolve().parent / "models" / "all-MiniLM-L6-v2")
 
     def ensureReady(self) -> None:
         if self.model is not None and self.np is not None:
@@ -326,7 +331,7 @@ class giftRecommender:
             raise RuntimeError("Install deps: pip install sentence-transformers numpy") from exc
 
         self.np = np
-        self.model = SentenceTransformer(self.modelName)
+        self.model = SentenceTransformer(str(self.modelName), local_files_only=True)
 
     def _giftText(self, giftRow: Dict[str, str]) -> str:
         giftName: str = giftRow.get("gift", "")
@@ -336,7 +341,7 @@ class giftRecommender:
 
     def _buildCacheKey(self, giftTexts: Sequence[str]) -> str:
         hasher = hashlib.sha256()
-        hasher.update(self.modelName.encode("utf-8"))
+        hasher.update(str(self.modelName).encode("utf-8"))
         hasher.update(b"\n")
         for giftText in giftTexts:
             hasher.update(giftText.encode("utf-8"))
